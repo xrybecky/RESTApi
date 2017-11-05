@@ -9,6 +9,10 @@ var express = require('express'),
 var routes = require('./api/routes/throwComputingRoutes'); //importing route
 routes(app); //register the route
 
+
+// custom helpers
+var Basic = require('./helpers/Basic');
+
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
 });

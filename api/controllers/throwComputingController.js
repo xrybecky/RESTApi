@@ -4,30 +4,9 @@
 
 'use strict';
 
-exports.compute = function (req, res) {
 
-    /* ULOZIT DO POLA
 
-    {
-        ['meta'] => [
-            'init_speed' => val,
-            'init_angle' => val,
-            'max_distance' => val,
-        ],
-
-        ['result'] => [
-            [0] => [
-                'time' => val_time,
-                'x' => val_x,
-                'y' => val_y,
-            ]
-        ],
-
-        ['error'] => message
-    }
-
-    */
-
+exports.compute = function (req, res){
     var response = {};
 
     // handle errors
@@ -46,10 +25,10 @@ exports.compute = function (req, res) {
         return;
     }
 
-    var initRadians = Basic.Math.toRad(req.params.angle);
+    var initRadians = Basic.maths.toRad(req.params.angle);
 
     // compute maximal distance of throw
-    var maxDistance = (Math.pow(req.params.speed, 2)/g) * Math.sin(2*initRadians);
+    var maxDistance = (Math.pow(req.params.speed, 2)/Basic.maths.gravity) * Math.sin(2*initRadians);
 
     response.meta = {
         speed : req.params.speed,
@@ -66,7 +45,7 @@ exports.compute = function (req, res) {
     while(x < maxDistance){
 
         x = req.params.speed * time * Math.cos(initRadians);
-        y = (req.params.speed * time * Math.sin(initRadians)) - ((Basic.Math.gravity * Math.pow(time, 2))/2);
+        y = (req.params.speed * time * Math.sin(initRadians)) - ((Basic.maths.gravity * Math.pow(time, 2))/2);
 
         if(y < 0){
             y = 0;
@@ -80,12 +59,6 @@ exports.compute = function (req, res) {
 
         time += 0.2;
     }
-
-    trajectory.push({
-        time : time,
-        x : maxDistance,
-        y: y
-    });
 
     response.trajectory = trajectory;
 
