@@ -43,7 +43,6 @@ exports.compute = function (req, res){
     var trajectory = [];
 
     while(x < maxDistance){
-
         x = req.params.speed * time * Math.cos(initRadians);
         y = (req.params.speed * time * Math.sin(initRadians)) - ((Basic.maths.gravity * Math.pow(time, 2))/2);
 
