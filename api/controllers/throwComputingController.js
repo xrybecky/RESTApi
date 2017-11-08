@@ -26,9 +26,10 @@ exports.compute = function (req, res){
     }
 
     var initRadians = Basic.maths.toRad(req.params.angle);
+    var initSpeed = Basic.maths.toMeterPerSecs(req.params.speed);
 
     // compute maximal distance of throw
-    var maxDistance = (Math.pow(req.params.speed, 2)/Basic.maths.gravity) * Math.sin(2*initRadians);
+    var maxDistance = (Math.pow(initSpeed, 2)/Basic.maths.gravity) * Math.sin(2*initRadians);
 
     response.meta = {
         speed : req.params.speed,
@@ -43,8 +44,8 @@ exports.compute = function (req, res){
     var trajectory = [];
 
     while(x < maxDistance){
-        x = req.params.speed * time * Math.cos(initRadians);
-        y = (req.params.speed * time * Math.sin(initRadians)) - ((Basic.maths.gravity * Math.pow(time, 2))/2);
+        x = initSpeed * time * Math.cos(initRadians);
+        y = (initSpeed * time * Math.sin(initRadians)) - ((Basic.maths.gravity * Math.pow(time, 2))/2);
 
         if(y < 0){
             y = 0;
