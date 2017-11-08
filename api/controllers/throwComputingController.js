@@ -62,5 +62,5 @@ exports.compute = function (req, res){
 
     response.trajectory = trajectory;
 
-    res.json(trajectory);
+    res.json(response);
 };
