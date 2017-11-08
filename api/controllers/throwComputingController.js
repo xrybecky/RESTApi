@@ -43,11 +43,14 @@ exports.compute = function (req, res){
     var time = 0;
     var trajectory = [];
 
+    var isMaxDistance = false;
+
     while(x < maxDistance){
         x = initSpeed * time * Math.cos(initRadians);
         y = (initSpeed * time * Math.sin(initRadians)) - ((Basic.maths.gravity * Math.pow(time, 2))/2);
 
         if(y < 0){
+            isMaxDistance = true;
             y = 0;
         }
 
@@ -58,6 +61,18 @@ exports.compute = function (req, res){
         });
 
         time += 0.2;
+
+        if(isMaxDistance){
+            break;
+        }
+    }
+
+    if(!isMaxDistance){
+        trajectory.push({
+            time : time,
+            x : isMaxDistance,
+            y: 0
+        });
     }
 
     response.trajectory = trajectory;
